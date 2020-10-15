@@ -3,7 +3,7 @@ title: "Vanilla JSでSPAやったるで" # 記事のタイトル
 emoji: "😄" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["frontend","react","spa"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 ---
 # TL;DR
 JS史上最軽量フレームワークと名高いVanilla JSでSPAしてみました。
