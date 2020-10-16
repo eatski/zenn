@@ -311,4 +311,4 @@ router(pages, `<h1>404 : Not Found<h1>`, document.getElementById("app"));
 しかしながら、この記事が改めて **「SPAってなんなのよ。というかWebアプリケーションってなんなのよ」** ということを考えてみる良いきっかけになってくれれば。と思っております。
 
 # サンプル実装
-Coming Soon...
+（2020/10/16 追記）サンプル実装を作りました。 ➡️ https://github.com/itskihaga/vanilla-spa-sample
