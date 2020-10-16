@@ -2,7 +2,7 @@
 title: "Vanilla JSでSPAやったるで" # 記事のタイトル
 emoji: "😄" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
-topics: ["frontend","react","spa"] # タグ。["markdown", "rust", "aws"]のように指定する
+topics: ["frontend","react","spa","javascript"] # タグ。["markdown", "rust", "aws"]のように指定する
 published: true # 公開設定（falseにすると下書き）
 ---
 # TL;DR
@@ -65,7 +65,7 @@ document.querySelectorAll("a").forEach(a => {
 ```
 
 アンカーリンクを押してみましょう。URLの変更が確認できますね。
-![1.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/294714/02fabf6c-daca-c566-7577-b05f1c3ad376.gif)
+![1.gif](https://storage.googleapis.com/zenn-user-upload/2nl1q0krmmr6idbefk23rg3ir7kg)
 
 ## URLの変更と同時にDOMを変更
 updateView関数としてURLが変更された時にDOMを操作する挙動を定義しましょう。
@@ -96,7 +96,7 @@ document.querySelectorAll("a").forEach(a => {
 });
 ```
 こんな風にSPAぽい画面ができました。
-![2.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/294714/ab907ccd-1f12-abd4-5e29-ade82cc2ce11.gif)
+![2.gif](https://storage.googleapis.com/zenn-user-upload/bfzmptpiekcy0fqqao4ydk5gqxbc)
 
 ## 初期表示時のURLによって表示するページを切り替える
 この要領で画面初期化時にもURLによって表示するページを切り替えましょう。
@@ -290,8 +290,7 @@ router(pages, `<h1>404 : Not Found<h1>`, document.getElementById("app"));
 
 ```
 これで完成です。
-![3.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/294714/3098e009-b6d5-9c5a-b11d-b26dec75af71.gif)
-
+![3.gif](https://storage.googleapis.com/zenn-user-upload/pcp5c39mfzxdbn4507qicnwrsro1)
 
 # 注意:ホスティングサーバー側で気をつけること
 さて、クライアント側の処理は出来上がりましたが、これをいざ普通にホスティングサーバーにデプロイしてSPAだ！とやると、ユーザーがブラウザからルート以外のURLにアクセスしようとするとこでコケます。
