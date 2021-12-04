@@ -161,7 +161,7 @@ https://firebase.google.com/docs/firestore/client/libraries?hl=ja
 - https://github.com/jantimon/html-webpack-plugin
 
 ##### 用途
-- JavaScriptも実装（[firestore部分](https://github.com/itskihaga/exprocess-rust-sample/tree/20211204/js）してる関係上、JavaScriptと.wasmファイル、そして最終的にindex.htmlまでを全て統合する必要があった
+- JavaScriptも実装（[firestoreとの接続部分](https://github.com/itskihaga/exprocess-rust-sample/tree/20211204/js)）してる関係上、JavaScriptと.wasmファイル、そして最終的にindex.htmlまでを全て統合する必要があった
 
 ##### 選定理由
 - （どうしても.wasmファイルが肥大化してしまい初期描画のボトルネックになりそうだったので）ハッシュ文字列によるCache Bustingやモジュールの実行優先度に基づくChunkへの分割などの細かい最適化をするための行き届いたAPI・プラグインが欲しい
