@@ -1,5 +1,5 @@
 ---
-title: "フロントエンド勢がWASM(Rust)でWebアプリを作ってみた" # 記事のタイトル
+title: "フロントエンドエンジニアがWASM(Rust)でWebアプリを作ってみた" # 記事のタイトル
 emoji: "㊙️" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "idea" # tech: 技術記事 / idea: アイデア記事
 topics: ["frontend","rust","wasm","yew"] # タグ。["markdown", "rust", "aws"]のように指定する
@@ -64,28 +64,28 @@ https://github.com/itskihaga/exprocess-rust-sample
 ### firestore
 https://firebase.google.com/docs/firestore
 
-#### 用途
+##### 用途
 - 同一ルームにいる複数人で状態を同期する
 
-#### 選定理由
+##### 選定理由
 - SDKを使えば苦せず状態の同期を実装できる
 - 基本無料
 - 娯楽用途なので（ルームにアクセスしてくるのは善意のユーザーのみなので値の改竄等のリスクがほぼない）サーバーサイドでビジネスロジックを持つ必要がない
 - 最低限のセキュリティルールであれば宣言的なフォーマットで設定できる（ルームを跨いでのいたずら・不正行為は防ぐ必要があるため）
 
-#### 評価
+##### 評価
 - ○ 機能が豊富で基本的には困らない
 
 ### firebase hosting
 https://firebase.google.com/docs/hosting
 
-#### 用途
+##### 用途
 - Webアプリケーションのホスティング
 
-#### 選定理由
+##### 選定理由
 - firestoreと開発アカウントの管理などを一元に扱いやすい
 
-#### 評価
+##### 評価
 - 特になし
 
 ## Webアプリケーションの実装
@@ -94,13 +94,13 @@ https://firebase.google.com/docs/hosting
 - マークアップはJSXライクな記法とそれを解釈してくれるマクロで行う
 - 状態管理はTEA（The Elm Architecture）を真似ており、ViewからMsgを送信し、Model(コンポーネント)が受け取ってUpdateするアーキテクチャ
 
-#### 用途
+##### 用途
 - マークアップ
 
-#### 選定理由
+##### 選定理由
 - 同様のフレームワークにSeed等あったが一番人気そうなものを選択
 
-#### 評価
+##### 評価
 - ○ 機能としてはほぼほぼhooks登場前のReact
 - ○ Reactと違い状態の更新をMessageを介してしか行えないようになっているため素のままのYewでもいい感じに状態管理できる。
 - ○ Callback（リスナーみたいなもの）のAPIが優秀。関数を使ってCallbackを変換していくのがとても書いていて気持ちいい。  
@@ -112,34 +112,34 @@ https://firebase.google.com/docs/hosting
 ### yew_router
 - YewをSPAとして表示するためのライブラリ
 
-#### 用途
+##### 用途
 - SPAとして表示するため
 
-#### 評価
+##### 評価
 - ○ React Routerと違いマクロで静的にURLのスキーマの型安全性を検証できる。
   
 ### firebase SDK（JavaScript)
 https://firebase.google.com/docs/firestore/client/libraries?hl=ja
 
-#### 用途
+##### 用途
 - フロントエンドからfirestoreへのアクセス
 
-#### 選定理由
+##### 選定理由
 - Rust（WASM）のFirestore SDKが公式にはない。
 
 ### serde,serde_json
 - JSONシリアライズ・デシリアライズ用モジュール
 - 定義した構造体にマクロを噛ませることでシリアライザとデシリアライザが生成される
 
-#### 用途
+##### 用途
 - wasm-bindgenの都合上、Rust<→JavaScript間であまり複雑なオブジェクトの受け渡しができない+firestoreのドキュメントには階層の深いオブジェクトは保存できない[^fsjson]ため、firestoreはJSON文字列を格納するようにしており、その際[firestoreとRustの値とのやり取り](https://github.com/itskihaga/exprocess-rust-sample/blob/20211204/src/domain/repository.rs#L71)に使用した。
 
-#### 選定理由
+##### 選定理由
 - デファクトがserdeらしい
 
 [^fsjson]: もちろんオブジェクトを1つのドキュメントに詰めようとせずドキュメントの階層をきちんと切って小さい単位で保存すれば問題にはならないのですが、Rustに実装を寄せたいアーキテクチャの都合上、文字列化した状態でやり取りするのが一番JavaScriptの実装が楽でした。
 
-#### 評価
+##### 評価
 - ○ 特に問題なく普通に使える。
 - ○ ゼロランタイムなので環境にも良い。
 
@@ -147,7 +147,7 @@ https://firebase.google.com/docs/firestore/client/libraries?hl=ja
 ### wasm-bindgen
 - WASMから公開されるAPI（ABI）をJavaScriptで扱う際に必要な諸々の実装を肩代わり（ビルド時に生成）してくれる。
   
-#### 評価
+##### 評価
 - ○ RustのコードからTypeScriptの型定義コードまで吐き出してくれるのはかなり有能
 - × ただ、[RustからJavaScriptの関数をimportする際](https://github.com/itskihaga/exprocess-rust-sample/blob/20211204/src/repository/js_bridge.rs#L6-L33)は型生成されないので注意
   - Rustを中心に据えた設計をしているとRust→JavaScriptの依存関係が発生してしまいその部分の型の安全は諦めなくてはならないので結構痛い 
@@ -156,24 +156,24 @@ https://firebase.google.com/docs/firestore/client/libraries?hl=ja
 - https://webpack.js.org/
 - https://github.com/jantimon/html-webpack-plugin
 
-#### 用途
+##### 用途
 - JavaScriptも実装（firestore部分[https://github.com/itskihaga/exprocess-rust-sample/tree/20211204/js]）してる関係上、JavaScriptと.wasmファイル、そして最終的にindex.htmlまでを全て統合する必要があった
 
-#### 選定理由
+##### 選定理由
 - （どうしても.wasmファイルが肥大化してしまい初期描画のボトルネックになりそうだったので）ハッシュ文字列によるCache Bustingやモジュールの実行優先度に基づくChunkへの分割などの細かい最適化をするための行き届いたAPI・プラグインが欲しい
 - 昨今話題になっている「ビルドが高速な」バンドラ・コンパイラは魅力的ではあるが上記最適化の方がビルド時間の短縮よりも優先度が高かった
   - そもそもビルド時間の一番のボトルネックJavaScriptではなくWASMのコンパイルなのでJavaScriptバンドラをこだわっても効果が低い
   - JavaScriptと連携したモノリシックなビルド生成物を使っての動作テストはそこまで頻度が高くない想定（だった泣。もう少しモジュールレベルのテストを充実させていれば・・・）
 
-#### 評価
+##### 評価
 - × ビルド速度は遅い
 
 ## ローカル開発
 ### firebase-tools
 https://firebase.google.com/docs/cli?hl=ja
-#### 用途
+##### 用途
 - firebaseのエミュレータを使ってfirestoreとfirebase hostingを起動し、動作確認をローカルで完結させるため
-#### 評価
+##### 評価
 - ○ firestoreのエミュレータはかなり良い感じ
 - × firebase hostingのエミュレータは本番と挙動がちょくちょく違う
 
@@ -183,18 +183,18 @@ YewにはStorybookのようなUIコンポーネントをバックエンドから
 ### ejs
 Node.jsで動くテンプレートエンジン
 
-#### 用途
+##### 用途
 - 簡易表示用のindex.htmlファイルの生成
-#### 選定理由
+##### 選定理由
 - html-webpack-pluginに食わせるテンプレートのフォーマットがejsであり、その[テンプレートを再利用し.htmlファイルを生成する](https://github.com/itskihaga/exprocess-rust-sample/blob/20211204/packages/showcase/server.js#L17-L41)ため
 
 ### serve
 Next.jsのVercelが開発している静的ファイルホスティングサーバー
 
-#### 用途
+##### 用途
 - ejsで吐き出した.htmlファイルやコンパイルした.wasmファイルをホスティングする
 
-#### 選定理由
+##### 選定理由
 - セットアップが簡単
 
 # フロントエンドにおけるRustについて
