@@ -94,9 +94,9 @@ https://yew.rs/
 
 - Rust版Reactなライブラリ
 - マークアップはJSXライクな記法とそれを解釈してくれるマクロで行う
-- 状態管理はTEA[^tea]を真似ており、ViewからMsgを送信し、Model(コンポーネント)が受け取ってUpdateするアーキテクチャ
+- 状態管理はTEA[^tea]を真似ており、ViewからMsgを送信し、Model(コンポーネント)が受け取ってUpdateするアーキテクチャ  
 
-[^tea] The Elm Architecture のこと https://guide.elm-lang.jp/architecture/
+[^tea]: The Elm Architecture のこと https://guide.elm-lang.jp/architecture/
 
 ##### 用途
 - マークアップ
