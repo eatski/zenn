@@ -35,12 +35,11 @@ https://zenn.dev/gagaga/articles/rust-web-frontend
 バックエンドFirestore一本で、静的なHTMLからfirestore上のデータを購読することでリアルタイムに状態を画面に描画させています。  
 
 ## 主な採用技術
+- Firestore
+- Rust
+- Yew
+- TailwindCSS
 
-| 採用技術 | 所管 | 
-|:--------|:--------|
-| Firestore| 言わずと知れたNoSQLのデータベースです。<br>アプリケーションの要件的にプレイヤーにホストの操作を即時伝える必要があるため採用しました。 | 
-| Rust、Yew| YewはRustで書けるReact的なUIライブラリです。<br> Rustを書きたかったので採用しました。 |
-| TailwindCSS| RustにはCSS in JS的なライブラリがなく、またTailwindCSSは言語・ライブラリを問わずに使用できるため採用しました |
 
 # モードレスなUIへの挑戦（現在も試行錯誤中）
 ## モードレスって？
