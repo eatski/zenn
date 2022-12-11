@@ -12,10 +12,7 @@ RustでWebアプリケーションを作ってリリースしたのでざっく�
 # アプリケーションの紹介
 ## これを作りました
 https://nandemo-jinro.web.app/
-
-![なんでも人狼のランディングページ。ホストは自分の名前を入力して部屋を作成できる。ダークモードにも対応。](/images/nandemojinro/ss1.png)
-![メンバーを集める画面。集まったメンバーの一覧が可視化され、ホストは部屋を締め切ることができる。ルール作成がめん。役職名とその役職が割り振られる人数を設定できる。](/images/nandemojinro/ss2.png)
-
+https://github.com/eatski/nandemo-jinro
 
 
 ## これは何？
