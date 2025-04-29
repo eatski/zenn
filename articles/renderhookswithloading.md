@@ -1,14 +1,12 @@
 ---
-title: "Render hooks with loading のすすめ" # 記事のタイトル
+title: "「Render hooks with loading」パターンでReactのローディング表示を柔軟に制御する" # 記事のタイトル
 emoji: "🐺" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["frontend"] # タグ。["markdown", "rust", "aws"]のように指定する
 published: false # 公開設定（falseにすると下書き）
 ---
 
-# Render hooks with loading という設計パターンの推奨
-
-本記事では、`Render hooks with loading` という設計パターンを提案します。
+Reactでクライアントサイドのデータフェッチを行う際、ローディング表示は悩みの種です。本記事では、カスタムフックがViewとローディング状態を返し、UI表示の制御を呼び出し元に委ねる「Render hooks with loading」パターンを提案します。
 
 ## 対象読者と前提条件
 
@@ -28,7 +26,7 @@ published: false # 公開設定（falseにすると下書き）
 
 ### 素直な実装例
 
-例えば、投稿一覧を表示するコンポーネントを素直に実装すると、以下のようになるでしょう。
+例えば、前述した方針に従いコンポーネントを素直に実装すると、以下のようになるでしょう。
 
 ```tsx
 import React from 'react';
@@ -97,15 +95,13 @@ const usePostsViewWithLoading = () => {
 この名称は筆者が考案したものです。uhyo 氏が提唱する`Render hooks`([参考記事](https://qiita.com/uhyo/items/cb6983f52ac37e59f37e)) に着想を得ています。`Render hooks`の特徴は、カスタムフックが JSX (View) を返すという点にあり、`Render hooks with loading` パターンもこれに当てはまっています。
 
 ### 特徴
-このパターンでは、カスタムフック内でデータフェッチを行います (例: `useSWR`)。フックは以下のものを返します。
+このパターンでは、カスタムフック内でデータフェッチを行います ( `useSWR`)。フックは以下のものを返します。
 *   `isLoading`: データフェッチ中かどうかを示す boolean 値。
 *   `view`: データ取得完了後に表示する JSX。ローディング中やエラー時は `null` または代替 UI を返すことがあります。
 
-重要な点として、このフック自体は **ローディング中の UI (スピナーなど) を直接は返しません**。ローディング状態 (`isLoading`) を返すことで、その状態をどう扱うかの判断を呼び出し元に委ねます。
+重要な点として、このフック自体は **ローディング中の UI (スピナーなど) を直接は返しません**。ローディング状態 (`isLoading`) を返すことで、その状態をどう扱うかの判断を呼び出し元に委ねます。フックが `isLoading` 状態のみを返し、UI表示を行わないことで、「機能的関心事で分割したコンポーネント単位でローディング表示を行う」ことから脱却できます。
 
-フックが `isLoading` 状態のみを返し、UI表示を行わないことで、「機能的関心事で分割したコンポーネント単位でローディング表示を行う」ことから脱却できます。
-
-このパターンの真価は、特にページレベルのコンポーネントなど、**複数の独立したUI部品（それぞれが独自の `use***ViewWithLoading` フックで実装される）を統合する必要がある場合**に発揮されます。呼び出し元は、これらの複数のフックから返される `isLoading` 状態を集約し、ローディングUI（例：ページ全体に単一のスピナーやスケルトンを表示）を、より大きな、適切な粒度で実装できます。結果として、コンポーネントごとにローディングUIをデザイン・実装する負担が軽減され、各コンポーネントが個別にローディング表示を行うことによるレイアウトシフトも効果的に抑制できます。
+このパターンの真価は、特にページレベルのコンポーネントなど、**複数の独立したUI部品（それぞれが独自の `Render hooks with loading` パターンで実装される）を統合する必要がある場合**に発揮されます。呼び出し元は、これらの複数のフックから返される `isLoading` 状態を集約し、ローディングUI（例：ページ全体に単一のスピナーやスケルトンを表示）を、より大きな、適切な粒度で実装できます。結果として、コンポーネントごとにローディングUIをデザイン・実装する負担が軽減され、各コンポーネントが個別にローディング表示を行うことによるレイアウトシフトも効果的に抑制できます。
 
 ### 例
 
@@ -116,7 +112,6 @@ const Page: React.FC = () => {
   // 複数のフックを呼び出して isLoading 状態と view を受け取る
   const { isLoading: isLoadingPosts, view: postsView } = usePostsViewWithLoading();
   const { isLoading: isLoadingProfile, view: profileView } = useProfileViewWithLoading();
-  // Settings は重要度が低いと仮定
   const { isLoading: isLoadingSettings, view: settingsView } = useSettingsViewWithLoading();
 
   // 主要コンテンツ (Posts, Profile) のローディング状態を集約
@@ -140,7 +135,7 @@ const Page: React.FC = () => {
             {profileView}
           </section>
 
-          {/* Settings セクションは独立してローディング状態を管理 */}
+          {/* 重要度が低いので Settings セクションは独立してローディング状態を管理 */}
           <section>
             <h2>Settings</h2>
             {isLoadingSettings ? <SectionLoadingIndicator /> : settingsView}
@@ -167,6 +162,6 @@ export default Page;
 
 しかし、現状の `Suspense` をデータフェッチと組み合わせて利用する場合、特にクライアントサイドレンダリング (CSR) 中心のアプローチでは、以下の点が課題となる可能性があります。
 
-*   **直列的なデータ取得による遅延:** `Suspense` と `use(Promise)` を組み合わせた場合、`use` は Promise が解決されるまでサスペンド（内部的に Promise を throw）します。コンポーネントの構造によっては、この挙動が原因で複数のデータ取得が直列的に（一つが終わってから次が始まるように）実行されてしまい、結果として全体の表示完了までの時間が長くなる可能性があります。
+*   **直列的なデータ取得による遅延:** `Suspense` と `use(Promise)` を組み合わせた場合、`use` は Promise が解決されるまでレンダリングを中断（サスペンド）します。コンポーネントの構造によっては、このサスペンドの挙動が原因で複数のデータ取得が直列的に（一つが終わってから次が始まるように）実行されてしまい、結果として全体の表示完了までの時間が長くなる可能性があります。
 *   **Suspense のスロットリング動作 (React 19以降):** React 19 では、Suspense がトリガーされた際に、たとえデータがすぐに利用可能になったとしても、最低限の時間 (300ms) はフォールバック UI を表示し続けるスロットリング動作が導入されました。これはキャッシュされたデータや高速なレスポンスの場合に、不必要な遅延として体感される可能性があります。
     *   関連する議論: [https://github.com/facebook/react/issues/31819](https://github.com/facebook/react/issues/31819)
