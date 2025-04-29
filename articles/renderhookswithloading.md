@@ -26,7 +26,7 @@ Reactでクライアントサイドのデータフェッチを行う際、ロー
 
 ### 素直な実装例
 
-前述した方針に従いコンポーネントを素直に実装すると、以下のようになるでしょう。
+例えば、前述した方針に従いコンポーネントを素直に実装すると、以下のようになるでしょう。
 
 ```tsx
 import React from 'react';
@@ -112,6 +112,7 @@ const Page: React.FC = () => {
   // 複数のフックを呼び出して isLoading 状態と view を受け取る
   const { isLoading: isLoadingPosts, view: postsView } = usePostsViewWithLoading();
   const { isLoading: isLoadingProfile, view: profileView } = useProfileViewWithLoading();
+  // Settings は重要度が低いと仮定
   const { isLoading: isLoadingSettings, view: settingsView } = useSettingsViewWithLoading();
 
   // 主要コンテンツ (Posts, Profile) のローディング状態を集約
@@ -135,7 +136,7 @@ const Page: React.FC = () => {
             {profileView}
           </section>
 
-          {/* 重要度が低いので Settings セクションは独立してローディング状態を管理 */}
+          {/* Settings セクションは独立してローディング状態を管理 */}
           <section>
             <h2>Settings</h2>
             {isLoadingSettings ? <SectionLoadingIndicator /> : settingsView}
@@ -160,8 +161,10 @@ export default Page;
 
 ### Suspense の課題
 
-しかし、現状の `Suspense` をデータフェッチと組み合わせて利用する場合、特にクライアントサイドレンダリング (CSR) 中心のアプローチでは、以下の点が課題となる可能性があります。
+しかし、現状の `Suspense` をデータフェッチと組み合わせて利用する場合、以下の点が課題となる可能性があります。
 
 *   **直列的なデータ取得による遅延:** `Suspense` と `use(Promise)` を組み合わせた場合、`use` は Promise が解決されるまでレンダリングを中断（サスペンド）します。コンポーネントの構造によっては、このサスペンドの挙動が原因で複数のデータ取得が直列的に（一つが終わってから次が始まるように）実行されてしまい、結果として全体の表示完了までの時間が長くなる可能性があります。
 *   **Suspense のスロットリング動作 (React 19以降):** React 19 では、Suspense がトリガーされた際に、たとえデータがすぐに利用可能になったとしても、最低限の時間 (300ms) はフォールバック UI を表示し続けるスロットリング動作が導入されました。これはキャッシュされたデータや高速なレスポンスの場合に、不必要な遅延として体感される可能性があります。
     *   関連する議論: [https://github.com/facebook/react/issues/31819](https://github.com/facebook/react/issues/31819)
+*   **チームへの導入:** Suspense と `use` を組み合わせたデータフェッチは比較的新しい概念であり、その挙動（特にサスペンドの仕組み）をチームメンバーが正確に理解し、適切に利用するには学習コストがかかる可能性があります。
+    *   一方で、 `Render hooks with loading` パターンは、基本的な概念の応用で構成されています。そのため学習コストが低く、チームへの導入が容易であると言えます。
