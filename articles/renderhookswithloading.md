@@ -8,7 +8,7 @@ published: false # 公開設定（falseにすると下書き）
 
 Reactでクライアントサイドのデータフェッチを行う際、ローディング表示は悩みの種です。本記事では、カスタムフックがViewとローディングの状態を返し、UI表示の制御を呼び出し元に委ねる「Render hooks with loading」パターンを提案します。
 
-## 対象読者と前提条件
+## 前提条件
 
 このパターンは、以下の技術スタックや設計方針を採用している場合に特に有効です。
 
@@ -91,7 +91,7 @@ const usePostsViewWithLoading = () => {
 }
 ```
 
-この名称は筆者が考案したものです。uhyo 氏が提唱する `Render hooks` ([参考記事](https://qiita.com/uhyo/items/cb6983f52ac37e59f37e)) に着想を得ています。`Render hooks` の特徴は、カスタムフックが JSX (View) を返すという点にあり、`Render hooks with loading` パターンもこれに当てはまっています。
+この名称は筆者が考案したものです。 `Render hooks` ([参考記事](https://qiita.com/uhyo/items/cb6983f52ac37e59f37e)) に着想を得ています。`Render hooks` の特徴は、カスタムフックが JSX (View) を返すという点にあり、`Render hooks with loading` パターンもこれに当てはまっています。
 
 ### 特徴
 このパターンでは、カスタムフック内でデータフェッチを行います (`useSWR`)。フックは以下のものを返します。
