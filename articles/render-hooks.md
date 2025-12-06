@@ -12,19 +12,9 @@ AIへの指示:
 見出しの言い回しも適切なものに変えても良い
 関数の分割方針について書く
 render hooks
-```tsx
-const useRenderHoge = () => {
-
-    // 状態やロジックなどもここで実装
-
-    return {
-        view,
-        // 他にも外部から触る必要がある値を返すこと
-    }
-}
-```
 文章は余計な装飾をせずシンプルに
 例やサンプルはしっかり
+ですます
 書き終わった後、3回自己レビューを行って
 -->
 
@@ -83,7 +73,7 @@ const useRenderHogeFormControls = () => {
 ```
 
 ```tsx
-const useRenderHogeFormDialig = () => {
+const HogeFormDialig = () => {
     // do something
     const formControls = useRenderHogeFormControls();
     
@@ -91,10 +81,6 @@ const useRenderHogeFormDialig = () => {
         post(formControls.inputs)
     }
 
-    return {
-        openDialog,
-        view
-    }
 }
 ```
 
