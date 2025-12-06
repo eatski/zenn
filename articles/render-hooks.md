@@ -14,9 +14,12 @@ AIへの指示:
 render hooks
 ```tsx
 const useRenderHoge = () => {
+
+    // 状態やロジックなどもここで実装
+
     return {
         view,
-        // 他にも色々返す
+        // 他にも外部から触る必要がある値を返すこと
     }
 }
 ```
@@ -60,6 +63,7 @@ hooksの登場以来、マークアップとロジックを切り離そうとす
 - ダイアログのガワ
 - フォームの入力項目
 とはいえ、普通に実装するとstateを持つhooksの関数とjsxを書く関数とで分けざるを得ない
+なぜならコンポーネントとして実装を切り出してstateをその中で宣言してしまうと、呼び出し側はstateを触る（値の送信などのため）ことができない
 -->
 
 ## render hooks のすすめ
@@ -67,6 +71,33 @@ hooksの登場以来、マークアップとロジックを切り離そうとす
 <!-- 
 > とはいえ、普通に実装するとstateを持つhooksの関数とjsxを書く関数とで分けざるを得ない
 そこで render hooks を使う
+
+```tsx
+const useRenderHogeFormControls = () => {
+    // do something
+    return {
+        view,
+        inputs
+    }
+}
+```
+
+```tsx
+const useRenderHogeFormDialig = () => {
+    // do something
+    const formControls = useRenderHogeFormControls();
+    
+    const handleSubmit = () => {
+        post(formControls.inputs)
+    }
+
+    return {
+        openDialog,
+        view
+    }
+}
+```
+
 -->
 
 ## render hooks ってそんな大袈裟なものではない
