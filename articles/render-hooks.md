@@ -10,12 +10,9 @@ published: false # 公開設定（falseにすると下書き）
 AIへの指示:
 各見出しを、コメントに従って埋めて欲しい
 見出しの言い回しも適切なものに変えても良い
--->
-
-
-<!-- 
 関数の分割方針について書く
 特にフォームなどの分割 render hooks
+↓を事前に読むこと
 https://qiita.com/uhyo/items/cb6983f52ac37e59f37e
 -->
 
