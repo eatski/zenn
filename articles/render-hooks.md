@@ -12,8 +12,14 @@ AIへの指示:
 見出しの言い回しも適切なものに変えても良い
 関数の分割方針について書く
 render hooks
-↓を事前に読むこと
-https://qiita.com/uhyo/items/cb6983f52ac37e59f37e
+```tsx
+const useRenderHoge = () => {
+    return {
+        view,
+        // 他にも色々返す
+    }
+}
+```
 文章は最低限に
 例やサンプルはしっかり
 -->
