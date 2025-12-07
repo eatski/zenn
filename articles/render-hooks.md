@@ -15,7 +15,11 @@ render hooks
 文章は余計な装飾をせずシンプルに
 例やサンプルはしっかり
 ですます
-書き終わった後、3回自己レビューを行って
+書き終わった後、以下の観点で批判的に自己レビューを行って
+- ユーザーに伝わらない前提で話を書いてないか
+- 間違った表現はないか
+- 削れる表現はないか
+
 -->
 
 ## 概要
@@ -32,8 +36,8 @@ render hooks
 - 関数を分割
 
 どういう切り口で分割するべきか？切り口が大事
-台本の例
-- 悪い例: セリフを言う登場人物ごとにページを分ける→流れがわからないので読みにくい
+台本の例を具体的に書いて
+- 悪い例: セリフを言う登場人物ごとにページを分ける（一応、自分以外が何らかのセリフがあることはそれぞれ記載されている）→流れがわからないので読みにくい
 - 良い例: ある程度の話のまとまりごとに分ける→読みやすい（自分が喋らないセリフがあっても）
 
 ただ分割すれば良いだけでない
@@ -55,13 +59,14 @@ hooksの登場以来、マークアップとロジックを切り離そうとす
 
 <!-- 
 画面の構成要素で分ける
-サンプルコード: ダイアログ内にフォームがある例
-- ダイアログのガワ
-- フォームの入力項目
+サンプルコード: ダイアログ内にフォームがある例（アンケート機能）
+- ダイアログのガワと送信
+- 名前などのユーザー情報の入力
+- アンケート内容の入力
 とはいえ、それぞれ普通に実装するとstateを持つhooksの関数とjsxを書く関数とで分けざるを得ない
 なぜならjsxを関数に切り出してstateをその中で宣言してしまうと、呼び出し側はstateを触る（値の送信などのため）ことができない。（↓例）
 ```tsx
-const HogeFormControls = () => {
+const UserFormControl = () => {
     // 呼び出し元がこのstateを参照する手段がない
     const [name,setName] = useState("")
 
@@ -84,7 +89,7 @@ const HogeFormControls = () => {
 そこで render hooks を使う
 
 ```tsx
-const useRenderHogeFormControls = () => {
+const useRenderUserFormControls = () => {
     // do something
     return {
         view,
@@ -96,7 +101,9 @@ const useRenderHogeFormControls = () => {
 ```tsx
 const HogeFormDialig = () => {
     // do something
-    const formControls = useRenderHogeFormControls();
+    const userFormControls = useRenderUserFormControls();
+
+    ~~~
     
     const handleSubmit = () => {
         post(formControls.inputs)
