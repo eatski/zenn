@@ -72,11 +72,11 @@ const useFormDialog = () => {
     setAnswer(e.target.value);
   };
 
-  const handleSubmit = async (close: () => void) => {
+  const handleSubmit = async () => {
     if (validateName(name) && validateEmail(email)) {
       // 送信処理
       await submitAnswers({ name, email, answer });
-      close();
+      setIsOpen(false);
     }
   };
 
@@ -189,15 +189,11 @@ const SurveyForm = () => {
 const SurveyFormDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSubmit = async (close: () => void) => {
+  const handleSubmit = async () => {
     // 問題: UserInfoForm と SurveyForm 内の state にアクセスできない
     // name, email, answer の値をどうやって取得する？
-    await fetch("/api/answers", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ /* ??? */ }),
-    });
-    close();
+    await submitSurvey({ /* ??? */ });
+    setIsOpen(false);
   };
 
   return (
@@ -309,7 +305,7 @@ const SurveyFormDialog = () => {
   const userInfo = useRenderUserInfoForm();
   const survey = useRenderSurveyForm();
 
-  const handleSubmit = async (close: () => void) => {
+  const handleSubmit = async () => {
     if (!userInfo.validate()) {
       return;
     }
@@ -319,7 +315,7 @@ const SurveyFormDialog = () => {
       ...userInfo.values,
       ...survey.values,
     }); // { name: "...", email: "...", answer: "..." }
-    close();
+    setIsOpen(false);
   };
 
   return (
