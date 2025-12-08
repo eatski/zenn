@@ -6,6 +6,10 @@ topics: ["frontend","react","typescript","hooks"] # タグ。["markdown", "rust"
 published: true # 公開設定（falseにすると下書き）
 ---
 
+:::message
+この記事は [SmartHR Advent Calendar 2025](https://qiita.com/advent-calendar/2025/smarthr) の記事です。
+:::
+
 ## 概要
 
 本記事では、肥大化しがちなReactコンポーネントをより読みやすく分割する方法として「render hooks」というパターンを紹介します。
