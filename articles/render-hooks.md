@@ -222,9 +222,9 @@ const SurveyFormDialog = () => {
 
 この問題を解決するのが **render hooks** です。render hooksは、**ReactNodeを返すカスタムhooks**で、[こちらの記事](https://engineering.linecorp.com/ja/blog/line-securities-frontend-3)で提唱されているパターンです。
 
-render hooksでは、以下の2つを返します:
+render hooksでは、以下を返します:
 
-- ReactNodeやそれを返す関数
+- ReactNodeやReactNodeを返す関数
 - 親コンポーネントが必要とするその他の値（フォームの入力値など）
 
 先ほどの例をrender hooksで書き直してみます。
