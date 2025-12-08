@@ -1,5 +1,5 @@
 ---
-title: "Reactコンポーネントの適切な分割方法：render hooksのすすめ" # 記事のタイトル
+title: "肥大化しがちなReactコンポーネントをどう分けるか：render hooksのすすめ" # 記事のタイトル
 emoji: "🪝" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["frontend","react","typescript","hooks"] # タグ。["markdown", "rust", "aws"]のように指定する
